@@ -6,6 +6,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskRepository } from './task.repository';
 import { Task } from './task.entity';
+import { User } from 'src/auth/user.entity';
 
 // Services, or so called Data Access Object (Data Access Object)
 
@@ -16,13 +17,13 @@ export class TasksService {
     private taskRepository: TaskRepository,
   ) {}
 
-  getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
-    return this.taskRepository.getTasks(filterDto);
+  getTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]> {
+    return this.taskRepository.getTasks(filterDto, user);
   }
 
-  async getTaskById(id: string): Promise<Task> {
-    // find task by id
-    const found = await this.taskRepository.findOne(id);
+  async getTaskById(id: string, user: User): Promise<Task> {
+    // find task by id and user
+    const found = await this.taskRepository.findOne({ where: { id, user } });
 
     // if not found, throws 404
     if (!found) {
@@ -32,13 +33,17 @@ export class TasksService {
     return found;
   }
 
-  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.taskRepository.createTask(createTaskDto);
+  createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
+    return this.taskRepository.createTask(createTaskDto, user);
   }
 
-  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
+  async updateTaskStatus(
+    id: string,
+    status: TaskStatus,
+    user: User,
+  ): Promise<Task> {
     // find task, if not found automatically throws 404
-    const task = await this.getTaskById(id);
+    const task = await this.getTaskById(id, user);
 
     // update task
     task.status = status;
@@ -49,9 +54,9 @@ export class TasksService {
     return task;
   }
 
-  async deleteTaskById(id: string): Promise<void> {
+  async deleteTaskById(id: string, user: User): Promise<void> {
     // using .delete() instead of .remove() to minimize db calls
-    const result = await this.taskRepository.delete(id);
+    const result = await this.taskRepository.delete({ id, user });
 
     // if there is no row affected by deletion actions, means not found
     if (result.affected === 0) {

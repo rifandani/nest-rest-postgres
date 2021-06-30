@@ -9,7 +9,7 @@ import { AuthModule } from 'src/auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([TaskRepository]), // repository yg sudah extends entity
-    AuthModule,
+    AuthModule, // guarding all /tasks routes
   ],
   controllers: [TasksController],
   providers: [TasksService],

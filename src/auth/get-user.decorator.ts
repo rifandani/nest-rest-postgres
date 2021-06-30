@@ -6,6 +6,7 @@ export const GetUser = createParamDecorator(
   (_data, ctx: ExecutionContext): User => {
     const req = ctx.switchToHttp().getRequest();
 
+    // get user from request object (passport)
     return req.user;
   },
 );
