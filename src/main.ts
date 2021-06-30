@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 // files
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './transform.interceptor';
 
 async function bootstrap() {
+  const logger = new Logger();
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // global configuration
@@ -15,6 +16,6 @@ async function bootstrap() {
 
   // run server
   await app.listen(8000);
-  console.log(`⚡ App is running on: ${await app.getUrl()}`);
+  logger.debug(`⚡ App is running on: ${await app.getUrl()}`);
 }
 bootstrap();

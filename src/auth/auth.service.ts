@@ -7,6 +7,8 @@ import { UserRepository } from './user.repository';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtPayload } from './jwt-payload.interface';
 
+// Services, or so called Data Access Object (Data Access Object)
+
 @Injectable()
 export class AuthService {
   constructor(
