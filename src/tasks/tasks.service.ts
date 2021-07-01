@@ -6,7 +6,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskRepository } from './task.repository';
 import { Task } from './task.entity';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 
 // Services, or so called Data Access Object (Data Access Object)
 

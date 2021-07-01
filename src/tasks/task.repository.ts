@@ -5,7 +5,7 @@ import { Task } from './task.entity';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskStatus } from './task-status.enum';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 
 @EntityRepository(Task)
 export class TaskRepository extends Repository<Task> {
