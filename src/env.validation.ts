@@ -2,6 +2,12 @@
 import { plainToClass } from 'class-transformer';
 import { IsEnum, IsNumber, IsString, validateSync } from 'class-validator';
 
+enum Stage {
+  Development = 'dev',
+  Production = 'prod',
+  Test = 'test',
+}
+
 enum Environment {
   Development = 'development',
   Production = 'production',
@@ -9,6 +15,9 @@ enum Environment {
 }
 
 class EnvironmentVariables {
+  @IsEnum(Stage)
+  STAGE: Stage;
+
   @IsEnum(Environment)
   NODE_ENV: Environment;
 
@@ -26,6 +35,9 @@ class EnvironmentVariables {
 
   @IsString()
   DB_DATABASE: string;
+
+  @IsString()
+  JWT_SECRET: string;
 }
 
 export function validate(config: Record<string, unknown>) {

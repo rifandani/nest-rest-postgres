@@ -6,8 +6,9 @@ import { AppModule } from './app.module';
 import { TransformInterceptor } from './transform.interceptor';
 
 async function bootstrap() {
-  const logger = new Logger();
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const logger = new Logger();
+  const PORT = process.env.PORT || 8000;
 
   // global configuration
   app.enableCors();
@@ -16,7 +17,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor()); // to omit user object from tasks controller return
 
   // run server
-  await app.listen(8000);
+  await app.listen(PORT);
   logger.debug(`⚡ App is running on: ${await app.getUrl()}`);
 }
 bootstrap();
