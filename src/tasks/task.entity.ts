@@ -18,7 +18,8 @@ export class Task {
   @Column()
   status: TaskStatus;
 
-  @ManyToOne(() => User, (user) => user.tasks, { eager: false }) // NOT fetch user data - eager load only one side of the relationship
+  // NOT fetch user data - eager load only one side of the relationship
+  @ManyToOne(() => User, (user) => user.tasks, { eager: false })
   @Exclude({ toPlainOnly: true }) // Expose this property only when transforming from class instance to plain object
   user: User;
 }

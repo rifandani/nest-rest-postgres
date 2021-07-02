@@ -2,6 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import {
   ConflictException,
   InternalServerErrorException,
+  Logger,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 // files
@@ -10,6 +11,8 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
+  private readonly logger = new Logger(UserRepository.name, true);
+
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = authCredentialsDto;
 
@@ -24,7 +27,7 @@ export class UserRepository extends Repository<User> {
       // save it to db
       await this.save(user);
     } catch (err) {
-      console.error(err);
+      this.logger.error(err);
 
       // unique_violation
       // https://www.postgresql.org/docs/13/errcodes-appendix.html

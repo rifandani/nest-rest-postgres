@@ -13,6 +13,7 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Task, (task) => task.user, { eager: true }) // automatically fetch tasks data
+  // With eager loading enabled on a relation you don't have to specify relation or join it - it will ALWAYS be loaded automatically.
+  @OneToMany(() => Task, (task) => task.user, { eager: true })
   tasks: Task[];
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Logger, Post } from '@nestjs/common';
 // files
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
@@ -7,8 +7,12 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  private readonly logger = new Logger(AuthService.name, true);
+
   @Post('/signup')
   signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    this.logger.verbose(`signUp (${JSON.stringify(authCredentialsDto)})`);
+
     return this.authService.signUp(authCredentialsDto);
   }
 
@@ -16,6 +20,8 @@ export class AuthController {
   signIn(
     @Body() authCredentialsDto: AuthCredentialsDto,
   ): Promise<{ accessToken: string }> {
+    this.logger.verbose(`signIn (${JSON.stringify(authCredentialsDto)})`);
+
     return this.authService.signIn(authCredentialsDto);
   }
 }
